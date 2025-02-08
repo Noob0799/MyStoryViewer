@@ -1,8 +1,6 @@
 import { FC, useContext } from "react";
 import { StoryObj, StoryViewerContextType } from "../@types/StoryViewer";
 import { AppContext } from "../context/ContextProvider";
-import StoryModal from "./storyModal/StoryModal";
-import StoryItem from "./storyModal/StoryItem";
 
 const StoryCard: FC<StoryObj> = (props) => {
   const data = useContext<StoryViewerContextType | null>(AppContext);
@@ -25,14 +23,6 @@ const StoryCard: FC<StoryObj> = (props) => {
           {props.self ? "Your Story" : props.userName}
         </div>
       </div>
-      <StoryModal isOpen={data?.isOpen}>
-        <StoryItem
-          storyToShow={data?.storyToShow}
-          userName={data?.selectedUser?.userName}
-          userImage={data?.selectedUser?.userImg}
-          close={() => data?.setIsOpen(false)}
-        />
-      </StoryModal>
     </>
   );
 };
