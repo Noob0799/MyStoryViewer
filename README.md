@@ -26,6 +26,7 @@ Steps to run code locally:
 - On clicking of the "X" button, the StoryModal will be closed
 - The name of the user and the user image will be shown on the top left of the StoryModal component
 - The StoryModal will automatically close once the last story is reached while traversing right and the first story is reached while traversing left
+- The story that is shown when a user icon is clicked is decided by the "viewed" field. If all stories are viewed of a particular user, then the first story is shown. If there is atleast one store that is not viewed, then the first story that is not viewed will be rendered first
 
 ## Optimizations for performance and scalability:
 - The StoryModal is created using React Portal so that it is rendered outside the App component hierarchy. Also it is a Higher Order Component used to render different Stories as child components
