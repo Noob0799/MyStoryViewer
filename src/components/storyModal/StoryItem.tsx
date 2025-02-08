@@ -36,7 +36,7 @@ const StoryItem = () => {
             </div>
             <div>{data?.selectedUser?.userName}</div>
           </div>
-          <div className="close-icon" onClick={close}>
+          <div className="close-icon" onClick={() => data?.setIsOpen(false)}>
             X
           </div>
         </div>
