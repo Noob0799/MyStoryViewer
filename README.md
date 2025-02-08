@@ -14,7 +14,7 @@ Steps to run code locally:
 ## Mobile view of story
 ![image](https://github.com/user-attachments/assets/dd14ce58-1e43-46a1-9804-5aa991f5ccad)
 
-### Overview of design:
+## Overview of design:
 - storiesData.json -> JSON file for storing the data structure that holds data containing list of stories uploaded by different users
 - StoriesSection component -> Parent component for rendering list of stories
 - StoryCard component -> Component for each story in minimized form. It renders the user image and the user name. The user image has either a red border indicating the user has uploaded a new story or a green border indicating all stories of the user has been viewed
