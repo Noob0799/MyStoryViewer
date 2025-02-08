@@ -5,6 +5,7 @@ import StoryCard from "./StoryCard";
 import StoryModal from "./storyModal/StoryModal";
 import StoryItem from "./storyModal/StoryItem";
 
+// Container component to list all user stories using flex
 const StoriesSection = () => {
   const data = useContext<StoryViewerContextType | null>(AppContext);
   return (

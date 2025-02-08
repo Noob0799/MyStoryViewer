@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { StoryViewerContextType } from "../../@types/StoryViewer";
 import { AppContext } from "../../context/ContextProvider";
 
+// Modal component created using React Portal to show each story
 const StoryModal: FC<{ children: ReactNode }> = ({
   children,
 }) => {

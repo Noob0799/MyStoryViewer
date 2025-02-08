@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import { StoryObj, StoryViewerContextType } from "../@types/StoryViewer";
 import { AppContext } from "../context/ContextProvider";
 
+// Component to render each story item in minimized form showing user image and user name
 const StoryCard: FC<StoryObj> = (props) => {
   const data = useContext<StoryViewerContextType | null>(AppContext);
   const handleStoryOpening = (userId: number) => {

@@ -2,6 +2,7 @@ import { useContext, useRef } from "react";
 import { StoryViewerContextType } from "../../@types/StoryViewer";
 import { AppContext } from "../../context/ContextProvider";
 
+// Child component of StoryModal to render each story for each user
 const StoryItem = () => {
   const data = useContext<StoryViewerContextType | null>(AppContext);
   const storyImageRef = useRef<HTMLInputElement | null>(null);

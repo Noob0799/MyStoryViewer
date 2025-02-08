@@ -12,6 +12,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<StoryObj | null>(null);
   const [storyToShow, setStoryToShow] = useState<Story | null>(null);
   const [storyTimer, setStoryTimer] = useState<number | undefined>();
+  // Function to mark a user as viewed when all of the user's stories are viewed
   const updateViewedStory = (
     storyId: number | undefined,
     userId: number | undefined
@@ -35,6 +36,9 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       : [];
     setStoriesData(updatedStoriesData);
   };
+  /* Function to find the user details and all the stories 
+  and then find the first story that has not been viewed 
+  or first story in the list if all the stories are viewed */
   const findStoryToShow = (userId: number) => {
     if (!storiesData) return;
     let storiesObj = null,
@@ -57,6 +61,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
     setStoryToShow(storyObj);
   };
+  // Function to find previous story
   const getPreviousStory = () => {
     if (!selectedUser) return null;
     let previousStory = null,
@@ -83,6 +88,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
     return { previousStory, previousUserObj };
   };
+  // Function to store previous story in state or close modal if no story available
   const showPreviousStory = () => {
     const previousStoryDetails = getPreviousStory();
     if (
@@ -95,6 +101,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setIsOpen(false);
     }
   };
+  // Function to find next story
   const getNextStory = () => {
     if (!selectedUser) return null;
     let nextStory = null,
@@ -120,6 +127,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
     return { nextStory, nextUserObj };
   };
+  // Function to store next story in state or close modal if no story available
   const showNextStory = () => {
     const nextStoryDetails = getNextStory();
     if (nextStoryDetails?.nextStory && nextStoryDetails?.nextUserObj) {
@@ -129,6 +137,8 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setIsOpen(false);
     }
   };
+  /* Function to be called once the story to be shown is stored in state
+  A timer is set to switch to next story after 5 seconds or close the modal after 5 seconds*/
   useEffect(() => {
     if (storyToShow) {
       updateViewedStory(storyToShow.id, selectedUser?.id);
@@ -155,6 +165,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       };
     }
   }, [storyToShow]);
+  // Function to set selected user and selected story as null when modal is closed
   useEffect(() => {
     if (!isOpen) {
       setSelectedUser(null);
