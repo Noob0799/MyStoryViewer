@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { createContext, FC, ReactNode, useEffect, useRef, useState } from "react";
 import * as response from "../data/storiesData.json";
 import { Story, StoryObj, StoryViewerContextType } from "../@types/StoryViewer";
 
@@ -11,7 +11,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<StoryObj | null>(null);
   const [storyToShow, setStoryToShow] = useState<Story | null>(null);
-  const [storyTimer, setStoryTimer] = useState<number | undefined>();
+  const timerRef = useRef<number | undefined>(undefined);
   // Function to mark a user as viewed when all of the user's stories are viewed
   const updateViewedStory = (
     storyId: number | undefined,
@@ -143,25 +143,27 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (storyToShow) {
       updateViewedStory(storyToShow.id, selectedUser?.id);
       const nextStoryDetails = getNextStory();
-      if (storyTimer) {
-        clearTimeout(storyTimer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = undefined;
       }
-      let timer: number | undefined;
       if (nextStoryDetails?.nextStory && nextStoryDetails?.nextUserObj) {
-        timer = setTimeout(() => {
-          clearTimeout(timer);
+        timerRef.current = setTimeout(() => {
+          clearTimeout(timerRef.current);
+          timerRef.current = undefined;
           setStoryToShow(nextStoryDetails?.nextStory);
           setSelectedUser(nextStoryDetails?.nextUserObj);
         }, 5000);
       } else {
-        timer = setTimeout(() => {
-          clearTimeout(timer);
+        timerRef.current = setTimeout(() => {
+          clearTimeout(timerRef.current);
+          timerRef.current = undefined;
           setIsOpen(false);
         }, 5000);
       }
-      setStoryTimer(timer);
       return () => {
-        clearTimeout(storyTimer);
+        clearTimeout(timerRef.current);
+        timerRef.current = undefined;
       };
     }
   }, [storyToShow]);
@@ -170,6 +172,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!isOpen) {
       setSelectedUser(null);
       setStoryToShow(null);
+      timerRef.current = undefined;
     }
   }, [isOpen]);
   const data: StoryViewerContextType = {
