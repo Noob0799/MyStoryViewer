@@ -14,13 +14,8 @@ const StoriesSection = () => {
           <StoryCard {...story} key={story.id} />
         ))}
       </div>
-      <StoryModal isOpen={data?.isOpen}>
-        <StoryItem
-          storyToShow={data?.storyToShow}
-          userName={data?.selectedUser?.userName}
-          userImage={data?.selectedUser?.userImg}
-          close={() => data?.setIsOpen(false)}
-        />
+      <StoryModal>
+        <StoryItem />
       </StoryModal>
     </>
   );

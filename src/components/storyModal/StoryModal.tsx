@@ -1,12 +1,17 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useContext } from "react";
 import ReactDOM from "react-dom";
+import { StoryViewerContextType } from "../../@types/StoryViewer";
+import { AppContext } from "../../context/ContextProvider";
 
-const StoryModal: FC<{ isOpen: boolean | undefined; children: ReactNode }> = ({
-  isOpen,
+const StoryModal: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  if (!isOpen) return null;
-  return ReactDOM.createPortal(<div className="story-modal-container">{children}</div>, document.body);
+  const data = useContext<StoryViewerContextType | null>(AppContext);
+  if (!data?.isOpen) return null;
+  return ReactDOM.createPortal(
+    <div className="story-modal-container">{children}</div>,
+    document.body
+  );
 };
 
 export default StoryModal;
