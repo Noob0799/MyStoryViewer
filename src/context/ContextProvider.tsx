@@ -46,12 +46,13 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   and then find the first story that has not been viewed 
   or first story in the list if all the stories are viewed */
   const findStoryToShow = (userId: number) => {
-    if (!storiesData) return;
+    let updatedStoriesData: StoryObj[] | null = JSON.parse(JSON.stringify(storiesData));
+    if (!updatedStoriesData) return;
     let storiesObj = null,
       storyObj = null;
-    for (let i = 0; i < storiesData.length; i++) {
-      if (storiesData[i].id === userId) {
-        storiesObj = storiesData[i];
+    for (let i = 0; i < updatedStoriesData.length; i++) {
+      if (updatedStoriesData[i].id === userId) {
+        storiesObj = updatedStoriesData[i];
         break;
       }
     }
@@ -178,6 +179,7 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!isOpen) {
       setSelectedUser(null);
       setStoryToShow(null);
+      clearTimeout(timerRef.current);
       timerRef.current = undefined;
     }
   }, [isOpen]);
