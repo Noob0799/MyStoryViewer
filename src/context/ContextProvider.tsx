@@ -1,4 +1,11 @@
-import { createContext, FC, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import * as response from "../data/storiesData.json";
 import { Story, StoryObj, StoryViewerContextType } from "../@types/StoryViewer";
 
@@ -17,24 +24,23 @@ const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     storyId: number | undefined,
     userId: number | undefined
   ) => {
-    let updatedStoriesData: StoryObj[] | null = storiesData
-      ? storiesData.map((storiesObj) => {
-          if (storiesObj.id === userId) {
-            let allViewed: boolean = true;
-            const updatedStories = storiesObj.stories.map((story) => {
-              if (story.id === storyId) {
-                story.viewed = true;
-              }
-              allViewed = allViewed && story.viewed;
-              return story;
-            });
-            storiesObj.stories = updatedStories;
-            storiesObj.viewed = allViewed;
+    if (!storiesData) return;
+    for (let i = 0; i < storiesData?.length; i++) {
+      let storiesObj: StoryObj = storiesData[i];
+      if (storiesObj.id === userId) {
+        let allViewed: boolean = true;
+        for (let j = 0; j < storiesObj.stories.length; j++) {
+          let story: Story = storiesObj.stories[j];
+          if (story.id === storyId) {
+            story.viewed = true;
           }
-          return storiesObj;
-        })
-      : [];
-    setStoriesData(updatedStoriesData);
+          allViewed &&= story.viewed;
+        }
+        storiesObj.viewed = allViewed;
+        break;
+      }
+    }
+    setStoriesData(storiesData);
   };
   /* Function to find the user details and all the stories 
   and then find the first story that has not been viewed 
